@@ -1,20 +1,53 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
 
-# Run and deploy your AI Studio app
+# 🚀 UzBlender 3D - Milliy 3D Market
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/drive/1qXHvuSUqgPnyXE6HZ50KYE1V8q4TSGsz
-
-## Run Locally
-
-**Prerequisites:**  Node.js
+O'zbekistondagi birinchi va eng yirik 3D assetlar bozori. Futuristik dizayn, sun'iy intellekt va blokcheyn texnologiyalarini o'zida jamlagan platforma.
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+
+## ✨ Imkoniyatlar
+
+*   **🛒 Market:** 3D modellar, teksturalar va plaginlar savdosi.
+*   **💼 Ishlar Doskasi:** Frilans va doimiy ishlar uchun vakansiyalar.
+*   **🏆 Tanlovlar:** Ijodiy bellashuvlar va qimmatbaho sovrinlar.
+*   **🎓 Ta'lim:** O'zbek tilidagi bepul video darsliklar (Blender, Unreal Engine, Maya).
+*   **💬 Chat Tizimi:** Real vaqt rejimida xavfsiz yozishmalar.
+*   **💳 Hamyon:** UzCard/Humo va ichki valyuta (UZC) integratsiyasi.
+
+## 🛠 Texnologiyalar
+
+Ushbu loyiha zamonaviy texnologiyalar asosida qurilgan:
+
+*   **Frontend:** React 18, TypeScript, Vite
+*   **Styling:** Tailwind CSS (Cyberpunk Theme)
+*   **3D Rendering:** React Three Fiber (@react-three/drei)
+*   **State Management:** Zustand
+*   **Icons:** Lucide React
+
+## 🚀 Ishga tushirish
+
+Loyihani kompyuteringizda ishlatish uchun:
+
+1.  Repozitoriyni yuklab oling:
+    ```bash
+    git clone https://github.com/sizning-username/uzblender.git
+    ```
+2.  Papka ichiga kiring:
+    ```bash
+    cd uzblender
+    ```
+3.  Kutubxonalarni o'rnating:
+    ```bash
+    npm install
+    ```
+4.  Loyihani ishga tushiring:
+    ```bash
+    npm run dev
+    ```
+
+## 🌐 Deploy
+
+Loyihani internetga chiqarish uchun **Vercel** yoki **Netlify** tavsiya etiladi.
+
+---
+© 2024 UzBlender 3D. Barcha huquqlar himoyalangan.
