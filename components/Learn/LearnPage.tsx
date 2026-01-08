@@ -212,7 +212,11 @@ export const LearnPage = () => {
     // Filtering Logic
     const filteredCourses = courses.filter(c => {
         const matchesSoftware = softwareFilter === 'Barchasi' || c.software === softwareFilter;
-        const matchesLevel = levelFilter === 'Barchasi' || c.level === levelFilter || (levelFilter === 'Boshlang\'ich' && c.level === 'Beginner') || (levelFilter === 'O\'rta' && c.level === 'Intermediate') || (levelFilter === 'Yuqori' && c.level === 'Advanced');
+        // Strict comparison against string literals for level filtering
+        const matchesLevel = levelFilter === 'Barchasi' || 
+                             (levelFilter === 'Boshlang\'ich' && c.level === 'Beginner') || 
+                             (levelFilter === 'O\'rta' && c.level === 'Intermediate') || 
+                             (levelFilter === 'Yuqori' && c.level === 'Advanced');
         return matchesSoftware && matchesLevel;
     });
 

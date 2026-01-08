@@ -434,10 +434,11 @@ export const useStore = create<StoreState>((set, get) => ({
         if (!user) return;
         set({
             contests: contests.map(c => {
-                if (c.id === contestId && c.entries) {
+                if (c.id === contestId) {
                     return {
                         ...c,
-                        entries: c.entries.map(e => {
+                        // CRITICAL FIX: Ensure entries is an array before mapping
+                        entries: (c.entries || []).map(e => {
                             if (e.id === entryId) {
                                 // Toggle vote
                                 const hasVoted = e.votedUserIds?.includes(user.id);

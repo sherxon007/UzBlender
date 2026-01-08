@@ -1,15 +1,16 @@
-
 import React, { useState, useMemo } from 'react';
 import { useStore } from '../../store';
-import { ArrowLeft, UserPlus, Star, MapPin, Globe, MessageCircle, Box, Users, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, UserPlus, Star, MapPin, Globe, MessageCircle, Box, Users, ShoppingBag, Calendar, CheckCircle2, Heart, Download } from 'lucide-react';
 import { Tooltip } from '../Tooltip';
+import { Asset } from '../../types';
 
-// Mock data generator for seller assets
-const getMockSellerAssets = (authorName: string) => {
+// Mock data generator for seller assets - cast to Asset[] for strict typing
+const getMockSellerAssets = (authorName: string): Asset[] => {
     return Array.from({ length: 6 }).map((_, i) => ({
         id: `seller-asset-${i}`,
         title: `${authorName}'s Cyber Asset ${i + 1}`,
         author: authorName,
+        authorId: `author-${authorName}`, // Mock ID
         authorAvatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${authorName}`,
         price: 20 + i * 5,
         image: `https://picsum.photos/400/400?random=${i + 100}`,
@@ -17,12 +18,15 @@ const getMockSellerAssets = (authorName: string) => {
         formats: ['.blend', '.fbx'],
         rating: 4.5 + (i % 5) / 10,
         polygons: '25k',
-        uploadDate: new Date(2024, 9, i + 1).toISOString()
-    }));
+        uploadDate: new Date(2024, 9, i + 1).toISOString(),
+        status: 'active', // Required field
+        description: 'Mock asset description for profile view.', // Required field
+        reviews: [] // Required field
+    } as Asset));
 };
 
 export const SellerProfile = () => {
-    const { activeAssetId, setView, addToCart, cart, user, addToast, startChat } = useStore();
+    const { activeAssetId, setView, addToCart, cart, user, addToast, startChat, toggleWishlist } = useStore();
     const [isFollowing, setIsFollowing] = useState(false);
     const [sortOption, setSortOption] = useState('Newest First');
     
@@ -110,7 +114,7 @@ export const SellerProfile = () => {
                                     <h1 className="text-3xl font-display font-bold text-white">{authorName}</h1>
                                     <Tooltip content="Verified Creator">
                                         <div className="bg-cyber-cyan/20 p-1 rounded-full">
-                                            <Star size={14} className="text-cyber-cyan fill-current" />
+                                            <CheckCircle2 size={14} className="text-cyber-cyan" />
                                         </div>
                                     </Tooltip>
                                 </div>
@@ -149,5 +153,98 @@ export const SellerProfile = () => {
 
                 {/* Stats */}
                 <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    <div className="bg-[#0a1220] p-4 rounded-xl border border-white/5 text-center">
-                        <Box className="w-6 h-6 text-cyber-cyan mx
+                    <div className="bg-[#0a1220] p-4 rounded-xl border border-white/5 text-center group hover:border-cyber-cyan/30 transition-colors">
+                        <Box className="w-6 h-6 text-cyber-cyan mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                        <h3 className="text-xl font-bold text-white">142</h3>
+                        <p className="text-xs text-gray-500 uppercase tracking-widest">Total Assets</p>
+                    </div>
+                    <div className="bg-[#0a1220] p-4 rounded-xl border border-white/5 text-center group hover:border-cyber-cyan/30 transition-colors">
+                        <ShoppingBag className="w-6 h-6 text-green-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                        <h3 className="text-xl font-bold text-white">12.5k</h3>
+                        <p className="text-xs text-gray-500 uppercase tracking-widest">Sales</p>
+                    </div>
+                    <div className="bg-[#0a1220] p-4 rounded-xl border border-white/5 text-center group hover:border-cyber-cyan/30 transition-colors">
+                        <Users className="w-6 h-6 text-purple-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                        <h3 className="text-xl font-bold text-white">2.8k</h3>
+                        <p className="text-xs text-gray-500 uppercase tracking-widest">Followers</p>
+                    </div>
+                    <div className="bg-[#0a1220] p-4 rounded-xl border border-white/5 text-center group hover:border-cyber-cyan/30 transition-colors">
+                        <Calendar className="w-6 h-6 text-orange-500 mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                        <h3 className="text-xl font-bold text-white">2021</h3>
+                        <p className="text-xs text-gray-500 uppercase tracking-widest">Joined</p>
+                    </div>
+                </div>
+
+                {/* Seller Assets */}
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                            <Box className="text-cyber-cyan" /> Portfolio
+                        </h2>
+                        <select 
+                            value={sortOption} 
+                            onChange={(e) => setSortOption(e.target.value)}
+                            className="bg-[#0a1220] border border-white/10 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-cyber-cyan"
+                        >
+                            <option>Newest First</option>
+                            <option>Most Popular</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                        </select>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {assets.map((asset) => {
+                            const isInCart = cart.some(item => item.id === asset.id);
+                            // Ensure user.wishlist exists before checking includes (Critical fix for logout state)
+                            const isLiked = user?.wishlist ? user.wishlist.includes(asset.id) : false;
+
+                            return (
+                                <div key={asset.id} className="group bg-[#0a1220] rounded-xl overflow-hidden border border-white/10 hover:border-cyber-cyan/50 transition-all hover:-translate-y-1 shadow-lg">
+                                    <div className="aspect-video relative overflow-hidden bg-black">
+                                        <img src={asset.image} alt={asset.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                        <div className="absolute top-2 right-2 flex gap-2">
+                                            <button 
+                                                onClick={() => toggleWishlist(asset.id)}
+                                                className={`p-2 rounded-full backdrop-blur-md transition-colors ${isLiked ? 'bg-pink-500 text-white' : 'bg-black/50 text-white hover:bg-pink-500'}`}
+                                            >
+                                                <Heart size={14} fill={isLiked ? "currentColor" : "none"} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="p-4">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <h3 className="font-bold text-white text-sm line-clamp-1">{asset.title}</h3>
+                                                <p className="text-xs text-gray-500">{asset.category} • {asset.polygons} Polys</p>
+                                            </div>
+                                            <div className="flex items-center gap-1 text-yellow-400 text-xs font-bold">
+                                                <Star size={12} fill="currentColor" /> {asset.rating.toFixed(1)}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex items-center justify-between mt-4">
+                                            <span className="text-xl font-bold text-cyber-cyan">${asset.price}</span>
+                                            <button 
+                                                onClick={() => addToCart(asset)}
+                                                disabled={isInCart}
+                                                className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all ${
+                                                    isInCart 
+                                                    ? 'bg-white/10 text-gray-400 cursor-not-allowed' 
+                                                    : 'bg-white text-black hover:bg-cyber-cyan'
+                                                }`}
+                                            >
+                                                {isInCart ? <CheckCircle2 size={14} /> : <Download size={14} />}
+                                                {isInCart ? 'Added' : 'Add to Cart'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};

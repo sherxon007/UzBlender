@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Float, Grid as DreiGrid, MeshDistortMaterial, Sparkles } from '@react-three/drei';
-import { Download, ShoppingCart, Shield, Cpu, Box, Layers, ArrowLeft, MessageSquare, Star, Share2, Heart, ChevronRight, Eye, Grid, CheckCircle2, BadgePercent, X, Flag } from 'lucide-react';
+import { Download, ShoppingCart, Shield, Cpu, Box, Layers, MessageSquare, Star, Share2, Heart, ChevronRight, Eye, Grid, CheckCircle2, BadgePercent, X, Flag } from 'lucide-react';
 import { useStore } from '../../store';
 import { Tooltip } from '../Tooltip';
 import { translations } from '../../translations';
@@ -146,9 +146,13 @@ export const ProductDetails = () => {
         );
     }
 
-    const isOwned = user?.purchasedAssets.includes(asset.id);
+    // --- CRITICAL FIX: Safe access to user properties ---
+    // If user is null, these default to false instead of crashing
+    const isOwned = user?.purchasedAssets ? user.purchasedAssets.includes(asset.id) : false;
+    const isLiked = user?.wishlist ? user.wishlist.includes(asset.id) : false;
+    // ----------------------------------------------------
+
     const isInCart = cart.some(item => item.id === asset.id);
-    const isLiked = user?.wishlist?.includes(asset.id);
     const basePrice = asset.discountPrice || asset.price;
     const finalPrice = licenseType === 'extended' ? basePrice * 3 : basePrice;
 

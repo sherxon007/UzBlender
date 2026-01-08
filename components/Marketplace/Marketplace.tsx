@@ -374,7 +374,7 @@ export const Marketplace = () => {
                                         <div className="absolute top-3 left-3 flex gap-2">
                                             <Tooltip content={asset.category} position="right">
                                             <div className="bg-[#0a1220]/90 backdrop-blur-md p-2 rounded-lg border border-white/10 text-gray-300 shadow-sm">
-                                                {asset.category === 'Character' && <UserIcon size={16} />}
+                                                {asset.category === 'Character' && <UserBadge size={16} />}
                                                 {asset.category === 'Vehicle' && <Truck size={16} />}
                                                 {asset.category === 'Environment' && <Box size={16} />}
                                                 {asset.category === 'Weapon' && <Zap size={16} />}
@@ -506,5 +506,5 @@ export const Marketplace = () => {
   );
 };
 
-// Helper icon
-const UserIcon = ({ size }: { size: number }) => <User size={size} />;
+// Helper icon - Renamed to avoid conflict with imported User icon
+const UserBadge = ({ size }: { size: number }) => <User size={size} />;

@@ -3,7 +3,7 @@
 
 O'zbekistondagi birinchi va eng yirik 3D assetlar bozori. Futuristik dizayn, sun'iy intellekt va blokcheyn texnologiyalarini o'zida jamlagan platforma.
 
-
+![UzBlender Preview](https://images.unsplash.com/photo-1614726365723-49faaa56475e?q=80&w=1000&auto=format&fit=crop)
 
 ## ✨ Imkoniyatlar
 
