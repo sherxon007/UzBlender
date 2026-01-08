@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { ArrowLeft, Shield, FileText, HelpCircle, Scale, MessageCircle } from 'lucide-react';
 import { useStore } from '../store';
 
 export const SupportPage = () => {
-  const { activeAssetId, setView, startChat, user, openAuth } = useStore(); // activeAssetId serves as the page slug here
+  const { activeAssetId, setView, startChat, user, openAuth } = useStore();
 
   const handleLiveChat = () => {
       if (!user) {
@@ -90,7 +89,7 @@ export const SupportPage = () => {
             <div className="space-y-6 text-gray-400 leading-relaxed">
                 <div>
                     <h3 className="text-white font-bold text-lg mb-2">How do I download my assets?</h3>
-                    <p>After purchase, go to your Dashboard > My Library. You will see a "Download" button next to each item.</p>
+                    <p>After purchase, go to your Dashboard &gt; My Library. You will see a "Download" button next to each item.</p>
                 </div>
                 <div>
                     <h3 className="text-white font-bold text-lg mb-2">What formats are provided?</h3>
